@@ -122,7 +122,7 @@ bool crack(HWND hwnd,LPWSTR filepath) {
     HANDLE file = CreateFile(filepath, GENERIC_READ, 0,0,OPEN_EXISTING,0,0 );
 
     if (file == INVALID_HANDLE_VALUE) {
-        MessageBox(hwnd, L"Arquivo não pode ser aberto. Verifique se ele está em uso ou se este programa foi aberto como administrador", L"Erro", MB_OK | MB_ICONERROR);
+        MessageBox(hwnd, L"Arquivo não pode ser aberto. Verifique se ele está em uso por outro programa.", L"Erro", MB_OK | MB_ICONERROR);
         return false;
     }
     DWORD size_file,read;
@@ -149,6 +149,10 @@ bool crack(HWND hwnd,LPWSTR filepath) {
             memcpy(&data[i], code_insert, sizeof(code_insert));
             CloseHandle(file);
             file = CreateFile(arquivo, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
+            if (file == INVALID_HANDLE_VALUE) {
+                MessageBox(hwnd, L"Arquivo nao pode ser escrito. Execute como administrador!", L"Erro", MB_OK | MB_ICONERROR);
+                return false;
+            }
             DWORD written;
             if (WriteFile(file, data, size_file, &written, 0) && written == size_file) {
                 CloseHandle(file);
@@ -158,6 +162,7 @@ bool crack(HWND hwnd,LPWSTR filepath) {
         }
 
     }
+    MessageBox(hwnd, L"Executavel nao reconhecido. Certifique-se que o arquivo MathType.exe foi selecionado.", L"ERRO", MB_OK | MB_ICONERROR);
     CloseHandle(file);
     return false;
     
@@ -209,7 +214,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 MessageBox(hWnd, L"Crackeado!", L"INFO", MB_OK | MB_ICONINFORMATION);
             }
             else {
-                MessageBox(hWnd, L"Executavel nao reconhecido. Certifique-se que o arquivo MathType.exe foi selecionado.", L"ERRO", MB_OK | MB_ICONERROR);
                 EnableWindow(botao_2, false);
             }
         }
