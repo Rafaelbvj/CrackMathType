@@ -8,6 +8,7 @@
 *.ilk
 *.aps
 *.pdb
+*.recipe
 
 # Compiled Object files
 *.slo
