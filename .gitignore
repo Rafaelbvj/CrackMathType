@@ -1,6 +1,14 @@
 # Prerequisites
 *.d
 
+#Visual studio trash
+*.idb
+*.tlog
+*.log
+*.ilk
+*.aps
+*.pdb
+
 # Compiled Object files
 *.slo
 *.lo
